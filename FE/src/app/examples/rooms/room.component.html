@@ -1,0 +1,176 @@
+<div class="wrapper">
+    <div style="height: 80px; background: orangered" filter-color="orange"></div>
+    <div class="section">
+        <div class="row">
+            <p></p>
+        </div>
+
+
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    ROOM LIST
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col" style="width: 10%">Floor</th>
+                            <th scope="col">Room Number</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Rate</th>
+                            <th scope="col" style="width: 10%">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let room of roomList">
+                            <td>{{room.floor}}</td>
+                            <td>{{room.number}}</td>
+                            <td>{{room.type}}</td>
+                            <td>{{room.rate}}</td>
+                            <td>
+                                <button type="button" (click)="setRoom(room);openModal(editRoom,'lg')"
+                                        class="btn btn-primary btn-icon btn-round" title="Edit rooms">
+                                    <i class="now-ui-icons ui-1_settings-gear-63">
+                                    </i>
+                                </button>
+                                <button type="button" (click)="deleteRoom(room)"
+                                        class="btn btn-primary btn-icon btn-round" title="Delete Room">
+                                    <i class="now-ui-icons ui-1_simple-remove">
+                                    </i>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div style="text-align: center">
+                        <a class="btn btn-primary" (click)="setRoomTypeModel(); openModal(addRoom,'sm')">
+                            Add Room</a>
+                        <a class="btn btn-primary" (click)="setRoomTypeModel();openModal(roomTypeEdit,'lg')">
+                            Edit Room Types</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!--    /////////////////////////////MODAL//////////////////////////////////-->
+    </div>
+    <ng-template #roomTypeEdit let-c="close" let-d="dismiss">
+        <div class="modal-header justify-content-center">
+            <button type="button" class="close" (click)="d('Cross click')">
+                <i class="now-ui-icons ui-1_simple-remove"></i>
+            </button>
+            <h4 class="title title-up justify-content-center">Room Type</h4>
+        </div>
+        <div class="modal-body">
+            <div class="card">
+                <div class="nav-tabs-navigation" data-tabs-color="orange">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col" style="width: 30%;">Type</th>
+                            <th scope="col" style="width: 50%;">Rate</th>
+                            <th scope="col" style="width: 20%;">Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let type of rtTemp; let index = index"
+                            [attr.data-index]="index">
+                            <td>
+                                <input type="text" name="name" placeholder="Name" class="form-control"
+                                       [(ngModel)]="type.name">
+                            </td>
+                            <td>
+                                <input type="text" name="Rate" placeholder="Phone" class="form-control"
+                                       [(ngModel)]="type.rate">
+                            </td>
+                            <td>
+                                <button type="button" (click)="deleteType(type)"
+                                        class="btn btn-primary btn-icon btn-round" title="Delete">
+                                    <i class="now-ui-icons ui-1_simple-remove">
+                                    </i>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-primary" (click)="createType()">
+                New
+            </button>
+            <button type="button" class="btn btn-primary" (click)="updateRoomType()">
+                Save
+            </button>
+        </div>
+    </ng-template>
+
+
+    <!--    CREATE ROOM-->
+    <ng-template #addRoom let-c="close" let-d="dismiss">
+        <div class="modal-header justify-content-center">
+            <button type="button" class="close" (click)="d('Cross click')">
+                <i class="now-ui-icons ui-1_simple-remove"></i>
+            </button>
+            <h4 class="title title-up justify-content-center">Create new booking</h4>
+        </div>
+        <div class="modal-body">
+            <span class="badge badge-primary">Floor Number</span>
+            <input type="number" name="booker" placeholder="Floor Number" class="form-control"
+                   [(ngModel)]="roomCreate.floor">
+            <span class="badge badge-primary">Room Number</span>
+            <input type="number" name="booker" placeholder="Room Number" class="form-control"
+                   [(ngModel)]="roomCreate.number">
+
+
+            <span class="badge badge-primary">Room Type</span>
+            <div>
+                <select class="form-select col-12" aria-label="Select Room Type" [ngModel]="roomTypeList"
+                        (ngModelChange)="setRoomType($event)" title="Room Type">
+                    <option *ngFor="let type of roomTypeList" [ngValue]="type">{{type.name}}</option>
+                </select></div>
+        </div>
+
+        <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-primary" (click)="createRoom()">
+                Create
+            </button>
+        </div>
+    </ng-template>
+    <!--    EDITROOM-->
+    <ng-template #editRoom let-c="close" let-d="dismiss">
+        <div class="modal-header justify-content-center">
+            <button type="button" class="close" (click)="d('Cross click')">
+                <i class="now-ui-icons ui-1_simple-remove"></i>
+            </button>
+            <h4 class="title title-up justify-content-center">Edit Room</h4>
+        </div>
+        <div class="modal-body">
+            <span class="badge badge-primary">Floor Number</span>
+            <input type="number" name="booker" placeholder="Floor Number" class="form-control"
+                   [(ngModel)]="roomSelected.floor">
+            <span class="badge badge-primary">Room Number</span>
+            <input type="number" name="booker" placeholder="Room Number" class="form-control"
+                   [(ngModel)]="roomSelected.number">
+
+
+            <span class="badge badge-primary">Room Type</span>
+            <div>
+                <select class="form-select col-12" aria-label="Select Room Type"  [ngModel]="roomTypeList"
+                        (ngModelChange)="setRoomType($event)" title="Room Type">
+                    <option *ngFor="let type of roomTypeList" [ngValue]="type" [selected]="roomSelected.typeID==type.id">{{type.name}}</option>
+                </select></div>
+        </div>
+
+        <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-primary" (click)="saveRoom()">
+                Save
+            </button>
+        </div>
+    </ng-template>
+
+
+</div>

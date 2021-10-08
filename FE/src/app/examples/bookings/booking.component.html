@@ -1,0 +1,338 @@
+<div class="wrapper">
+    <div style="height: 80px; background: orangered" filter-color="orange"></div>
+    <div class="section">
+        <div class="container">
+            <div class="button-container">
+                <a class="btn btn-primary btn-round btn-lg" (click)="openModal(create,'lg')">Create Booking</a>
+            </div>
+            <!--            Tìm kiếm-->
+            <div class="row">
+                <div class="col-sm-6 col-lg-1"><BR><BR></div>
+                <div class="col-sm-6 col-lg-1"><BR><BR>ARIVAL</div>
+                <div class="col-sm-6 col-lg-3">
+                    <span class="badge badge-primary">From</span>
+                    <div class="datepicker-container">
+                        <div class="form-group">
+                            <input class="form-control datetimepicker" placeholder="06/07/2017"
+                                   name="date_from" [(ngModel)]="date_from" ngbDatepicker #df="ngbDatepicker"
+                                   (click)="df.toggle()"
+                                   data-color="orange">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <span class="badge badge-primary">To</span>
+                    <div class="datepicker-container">
+                        <div class="form-group">
+                            <input class="form-control datetimepicker" placeholder="06/07/2017"
+                                   name="dp" [(ngModel)]="date_to" ngbDatepicker #dt="ngbDatepicker"
+                                   (click)="dt.toggle()"
+                                   [minDate]="df" data-color="orange">
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary btn-round btn-lg" (click)="search()"> Search</button>
+            </div>
+        </div>
+        <div class="row">
+            <p></p>
+        </div>
+
+
+        <div class="container">
+            <div class="card" *ngFor="let booking of bookingList">
+                <div class="card-header">
+                    BOOKING NO.{{booking.id}} ({{booking.date_from|date:'dd/MM/YYYY'}}
+                    -{{booking.date_to|date:'dd/MM/YYYY'}})
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col" style="width: 10%">Room #</th>
+                            <th scope="col">Total Guest</th>
+                            <th scope="col">Guest</th>
+                            <th scope="col">Room Type</th>
+                            <th scope="col">Rate</th>
+                            <th scope="col" style="width: 10%">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let room of booking.roomingList">
+                            <td>
+                                <strong>{{room.room_number}}</strong>
+                            </td>
+                            <td>{{room.guestList.length}}</td>
+                            <td>
+                                <table class="table table-borderless">
+                                    <tr *ngFor="let ppl of room.guestList">
+                                        <td>{{ppl.gender == "Male" ? "Mr." : "Mrs."}} {{ppl.name}}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td>{{room.roomType}}</td>
+                            <td>{{room.rate|currency:"VND"}}</td>
+                            <td>
+                                <button type="button" (click)="setRoom(room);openModal(editGuest,'lg')"
+                                        class="btn btn-primary btn-icon btn-round" title="Edit guests">
+                                    <i class="now-ui-icons users_circle-08">
+                                    </i>
+                                </button>
+                                <button type="button" (click)="deleteRoom(room)"
+                                        class="btn btn-primary btn-icon btn-round" title="Delete Room">
+                                    <i class="now-ui-icons ui-1_simple-remove">
+                                    </i>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div style="text-align: center">
+                        <a class="btn btn-primary"
+                           (click)="setSelectedBooking(booking);getAvailableByDate(booking.date_from,booking.date_to);openModal(addRoom,'sm')">Add
+                            room</a>
+                        <a class="btn btn-primary" (click)="setSelectedBooking(booking);openModal(edit,'lg')">Edit
+                            Booking</a>
+                        <a class="btn btn-danger" (click)="deleteBooking(booking.id)">Delete</a></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!--    /////////////////////////////MODAL//////////////////////////////////-->
+
+
+<!--    CREATE BOOKING-->
+    <ng-template #create let-c="close" let-d="dismiss">
+        <div class="modal-header justify-content-center">
+            <button type="button" class="close" (click)="d('Cross click')">
+                <i class="now-ui-icons ui-1_simple-remove"></i>
+            </button>
+            <h4 class="title title-up justify-content-center">Create new booking</h4>
+        </div>
+        <div class="modal-body">
+            <span class="badge badge-primary">Booker</span>
+            <input type="text" name="booker" placeholder="Booker" class="form-control"
+                   [(ngModel)]="bookingCreate.booker">
+            <span class="badge badge-primary">Notice</span>
+            <input type="text" name="notice" placeholder="Notice" class="form-control"
+                   [(ngModel)]="bookingCreate.notice">
+            <div class="row">
+                <div class="datepicker-container col-sm-6">
+                    <span class="badge badge-primary">Date from</span>
+                    <div class="form-group">
+                        <input class="form-control datetimepicker" placeholder="06/07/2017"
+                               name="date_from_create" [(ngModel)]="date_from_create"
+                               (ngModelChange)="getAvailable(date_from_create,date_to_create)" ngbDatepicker
+                               #dfn="ngbDatepicker"
+                               (click)="dfn.toggle()"
+                               data-color="orange">
+                    </div>
+                </div>
+                <div class="datepicker-container col-sm-6">
+                    <span class="badge badge-primary">Date to</span>
+                    <div class="form-group">
+                        <input class="form-control datetimepicker" placeholder="06/07/2017"
+                               name="date_to_create" [(ngModel)]="date_to_create"
+                               (ngModelChange)="getAvailable(date_from_create,date_to_create)" ngbDatepicker
+                               #dft="ngbDatepicker"
+                               (click)="dft.toggle()"
+                               data-color="orange">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="nav-tabs-navigation" data-tabs-color="orange">
+                    <div class="nav-tabs-wrapper">
+                        <ngb-tabset [justify]="'center'" class="text-center">
+                            <ngb-tab *ngFor="let type of available"
+                                     title="{{type.roomType}} ({{type.roomList.length}})">
+                                <ng-template ngbTabContent>
+                                    <div class="row">
+                                        <div class="form-check col-sm-2" *ngFor="let room of type.roomList">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox"
+                                                       (change)="changeSelect(room.id)">
+                                                <span class="form-check-sign">
+                                                {{room.number}}</span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                </ng-template>
+                            </ngb-tab>
+                        </ngb-tabset>
+                    </div>
+                </div>
+            </div>
+            <h4 style="text-align: center; color: orangered">SELECTED ROOMS: {{bookingCreate.roomList.length}}</h4>
+        </div>
+
+        <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-primary" (click)="createBooking(date_from_create, date_to_create)">
+                Create
+            </button>
+        </div>
+    </ng-template>
+
+<!--EDITBOOKING-->
+    <ng-template #edit let-c="close" let-d="dismiss">
+        <div class="modal-header justify-content-center">
+            <button type="button" class="close" (click)="d('Cross click')">
+                <i class="now-ui-icons ui-1_simple-remove"></i>
+            </button>
+            <h4 class="title title-up justify-content-center">Edit booking</h4>
+        </div>
+        <div class="modal-body">
+            <span class="badge badge-primary">Booker</span>
+            <input type="text" name="booker" placeholder="Booker" class="form-control"
+                   [(ngModel)]="bookingSelected.booker">
+            <span class="badge badge-primary">Notice</span>
+            <input type="text" name="notice" placeholder="Notice" class="form-control"
+                   [(ngModel)]="bookingSelected.notice">
+            <div class="row">
+                <div class="datepicker-container col-sm-6">
+                    <span class="badge badge-primary">Date from</span>
+                    <input type="text" name="notice" placeholder="Notice" class="form-control"
+                           [ngModel]="bookingSelected.date_from|date:'shortDate'" disabled>
+                </div>
+                <div class="datepicker-container col-sm-6">
+                    <span class="badge badge-primary">Date to</span>
+                    <input type="text" name="notice" placeholder="Notice" class="form-control"
+                           [ngModel]="bookingSelected.date_to|date:'shortDate'" disabled>
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="nav-tabs-navigation" data-tabs-color="orange">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-primary" (click)="createBooking(date_from_create, date_to_create)">
+                Create
+            </button>
+        </div>
+
+
+
+    </ng-template>
+
+<!--EDITGUEST-->
+    <ng-template #editGuest let-c="close" let-d="dismiss">
+
+        <div class="modal-header justify-content-center">
+            <button type="button" class="close" (click)="d('Cross click')">
+                <i class="now-ui-icons ui-1_simple-remove"></i>
+            </button>
+            <h4 class="title title-up justify-content-center">Room {{roomEditSelected.room_number}}</h4>
+        </div>
+        <div class="modal-body">
+
+            <div class="card">
+                <div class="nav-tabs-navigation" data-tabs-color="orange">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col" style="width: 25%;">Name</th>
+                            <th scope="col" style="width: 15%;">Gender</th>
+                            <th scope="col" style="width: 30%;">Address</th>
+                            <th scope="col" style="width: 20%;">Phone</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let guest of roomEditSelected.guestList; let index = index"
+                            [attr.data-index]="index">
+                            <td>
+                                <input type="text" name="name" placeholder="Name" class="form-control"
+                                       [(ngModel)]="guest.name">
+                            </td>
+                            <td>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" [checked]="guest.gender=='Male'"
+                                               (change)="changeGender(index)" class="form-check-input">
+                                        <span class="form-check-sign"></span> {{guest.gender}} </label></div>
+                            </td>
+                            <td>
+                                <input type="text" name="address" placeholder="Address" class="form-control"
+                                       [(ngModel)]="guest.address">
+                            </td>
+                            <td>
+                                <input type="text" name="Phone" placeholder="Phone" class="form-control"
+                                       [(ngModel)]="guest.phone">
+                            </td>
+                            <td>
+                                <button type="button" (click)="openModal(findGuest,'lg')"
+                                        class="btn btn-primary btn-icon btn-round" title="Delete">
+                                    <i class="now-ui-icons ui-1_zoom-bold">
+                                    </i>
+                                </button>
+                                <button type="button" (click)="deleteGuest(index)"
+                                        class="btn btn-primary btn-icon btn-round" title="Delete">
+                                    <i class="now-ui-icons ui-1_simple-remove">
+                                    </i>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-primary" (click)="addGuest()">
+                Add Guest
+            </button> &nbsp;&nbsp;
+            <button type="button" class="btn btn-primary" (click)="saveGuestList()">
+                Save
+            </button>
+        </div>
+    </ng-template>
+
+<!--CREATE ROOM-->
+    <ng-template #addRoom let-c="close" let-d="dismiss">
+
+        <div class="modal-header justify-content-center">
+            <button type="button" class="close" (click)="d('Cross click')">
+                <i class="now-ui-icons ui-1_simple-remove"></i>
+            </button>
+            <h4 class="title title-up justify-content-center">Add Room</h4>
+        </div>
+        <div class="modal-body">
+
+            <div class="card nav-align-center">
+
+                <span class="badge badge-primary">Room Type</span>
+                <div>
+                    <select class="form-select col-8" aria-label="Select Room Type" [ngModel]="available"
+                            (ngModelChange)="setRoomList($event.roomList)" title="Room Type">
+                        <option *ngFor="let type of available" [ngValue]="type">{{type.roomType}}
+                            ({{type.roomList.length}})
+                        </option>
+                    </select></div>
+                <span class="badge badge-primary">Room Number</span>
+                <div>
+                    <select class="form-select col-8" aria-label="Select Room Type" [ngModel]="roomList"
+                            (ngModelChange)="setAddOrUpdateRoom($event)">
+                        <option *ngFor="let room of roomList" [ngValue]="room">{{room.number}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-primary" (click)="createRoom()">
+                Save
+            </button>
+        </div>
+    </ng-template>
+</div>

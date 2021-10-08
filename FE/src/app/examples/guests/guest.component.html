@@ -1,0 +1,55 @@
+<div class="wrapper">
+    <div style="height: 80px; background: orangered" filter-color="orange"></div>
+    <div class="section">
+        <div class="row">
+            <p></p>
+        </div>
+
+
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    GUEST LIST
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Gender</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Personal ID</th>
+                            <th scope="col" style="width: 10%">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let guest of guestList">
+                            <td>{{guest.gender=="Male"?"Mr":"Mrs"}}</td>
+                            <td>{{guest.name}}</td>
+                            <td>{{guest.address}}</td>
+                            <td>{{guest.phone}}</td>
+                            <td>{{guest.personal_id}}</td>
+                            <td>
+                                <button type="button" (click)="setGuest(guest);openModal(editGuest,'lg')"
+                                        class="btn btn-primary btn-icon btn-round" title="Edit rooms">
+                                    <i class="now-ui-icons ui-1_settings-gear-63">
+                                    </i>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div style="text-align: center">
+                        <a class="btn btn-primary">
+                            New guest</a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <!--    /////////////////////////////MODAL//////////////////////////////////-->
+
+    </div>
+</div>
