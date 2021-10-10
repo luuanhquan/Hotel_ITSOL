@@ -5,7 +5,6 @@ import com.itsol.DTO.BookingFilterDTO;
 import com.itsol.DTO.RoomTypeDTO;
 import com.itsol.repositories.RoomTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,7 +22,7 @@ public class RoomTypeService {
         return roomTypeRepository.getAll();
     }
 
-    public void saveOrUpdate(List<RoomTypeDTO> roomType){
+    public void saveOrUpdate(List<RoomTypeDTO> roomType) {
         this.roomTypeRepository.saveOrUpdate(roomType);
     }
 }

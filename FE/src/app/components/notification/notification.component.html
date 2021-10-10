@@ -1,17 +1,17 @@
 <div *ngFor="let alert of alerts">
-    <ngb-alert [type]="alert.type"  [dismissible]="false" >
+    <ngb-alert [dismissible]="false" [type]="alert.type">
         <div class="container">
             <div class="alert-wrapper">
-                <button type="button" name="button" class="close" (click)="closeAlert(alert)">
+                <button (click)="closeAlert(alert)" class="close" name="button" type="button">
                   <span aria-hidden="true">
                       <i class="now-ui-icons ui-1_simple-remove"></i>
                   </span>
                 </button>
                 <div class="message">
                     <ng-container *ngIf="alert.icon">
-                      <div class="alert-icon">
-                          <i class="now-ui-icons {{alert.icon}}"></i>
-                      </div>
+                        <div class="alert-icon">
+                            <i class="now-ui-icons {{alert.icon}}"></i>
+                        </div>
                     </ng-container>
                     <strong>{{alert.strong}} </strong>{{ alert.message }}
                 </div>

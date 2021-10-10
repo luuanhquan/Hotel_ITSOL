@@ -1,22 +1,33 @@
 <nav class="navbar navbar-expand-lg bg-primary fixed-top navbar-transparent" color-on-scroll="500">
     <div class="container">
-
         <div class="navbar-translate">
-            <a class="navbar-brand" [routerLink]="['/index']" placement="bottom"
-               ngbTooltip="Designed by Invision. Coded by Creative Tim">
+            <a [routerLink]="['/']" class="navbar-brand" placement="bottom">
                 HOTEL MANAGEMENT
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler"
-                    aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation"
-                    (click)="sidebarToggle()">
+
+            <button (click)="sidebarToggle()" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation"
+                    class="navbar-toggler" data-target="#navbarToggler" data-toggle="collapse"
+                    type="button">
                 <span class="navbar-toggler-bar bar1"></span>
                 <span class="navbar-toggler-bar bar2"></span>
-                <span class="navbar-toggler-bar bar3"></span>
             </button>
         </div>
-        <div class="collapse navbar-collapse" data-nav-image="assets/img/blurred-image-1.jpg" data-color="orange">
+        <div class="collapse navbar-collapse" data-color="orange" data-nav-image="assets/img/blurred-image-1.jpg">
             <ul class="navbar-nav ml-auto">
+                <ng-template #checkout>
+                    <h5>Check out today</h5>
+                    <ul *ngFor="let room of listCheckOut"><b>R{{room.room_number}}</b>
+                        <li *ngFor="let ppl of room.guest_list">{{ppl.gender ? "Mr." : "Mrs."}} {{ppl.name}}</li>
+                    </ul>
+                </ng-template>
+
                 <li class="nav-item">
+                    <a class="nav-link">
+                        <i *ngIf="noti" [ngbPopover]="checkout" aria-hidden="false"
+                           class="now-ui-icons ui-1_bell-53 spin"></i>
+                    </a>
+                </li>
+                <li>
                     <a class="nav-link" href="booking">
                         <i class="now-ui-icons ui-1_calendar-60"></i>
                         <p>Bookings</p>
@@ -40,4 +51,7 @@
             </ul>
         </div>
     </div>
+
+
 </nav>
+

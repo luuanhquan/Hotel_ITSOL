@@ -1,8 +1,8 @@
-export interface RoomModel{
+export interface RoomModel {
     id: number;
     floor: number;
-    number:number;
+    number: number;
     typeID: number;
-    type:String;
+    type: String;
     rate: number;
 }

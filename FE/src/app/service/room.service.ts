@@ -2,21 +2,14 @@ import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {BookingModel} from '../model/Booking.model';
-import {AvailableModel, Room} from '../model/Available.model';
-import {BookingFilterModel} from '../model/BookingFilter.model';
-import {BookingCreateModel} from '../model/BookingCreate.model';
-import {RoomingListModel} from '../model/RoomingList.model';
-import {RoomComponent} from '../examples/rooms/room.component';
 import {RoomModel} from '../model/Room.model';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {RoomTypeModel} from '../model/RoomType.model';
 
 @Injectable({
     providedIn: 'root'
 })
 
-export class RoomService{
+export class RoomService {
 
     private apiServerUrl = environment.apiBaseUrl;
 
@@ -35,7 +28,7 @@ export class RoomService{
         return this.http.delete<any>(`${this.apiServerUrl}/room/type/delete/${index}`);
     }
 
-    getRoomType():Observable<RoomTypeModel[]> {
+    getRoomType(): Observable<RoomTypeModel[]> {
         return this.http.get<RoomTypeModel[]>(`${this.apiServerUrl}/room/type`);
     }
 
@@ -44,7 +37,7 @@ export class RoomService{
 
     }
 
-    createRoom(roomCreate: RoomModel) :Observable<any>{
+    createRoom(roomCreate: RoomModel): Observable<any> {
         return this.http.post<RoomTypeModel[]>(`${this.apiServerUrl}/room/create`, roomCreate);
     }
 

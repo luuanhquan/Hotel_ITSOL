@@ -17,6 +17,7 @@ public class BookingDTO {
     Date date_from;
     Date date_to;
     String notice;
+    List<RoomingListDTO> roomingList;
 
     public BookingDTO(int id, String booker, int room_count, Date date_from, Date date_to, String notice) {
         this.id = id;
@@ -26,6 +27,4 @@ public class BookingDTO {
         this.date_to = date_to;
         this.notice = notice;
     }
-
-    List<RoomingListDTO> roomingList;
 }

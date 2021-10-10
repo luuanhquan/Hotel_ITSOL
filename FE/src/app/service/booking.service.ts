@@ -12,15 +12,15 @@ import {RoomingListModel} from '../model/RoomingList.model';
     providedIn: 'root'
 })
 
-export class BookingService{
+export class BookingService {
 
     private apiServerUrl = environment.apiBaseUrl;
 
     constructor(private http: HttpClient) {
     }
 
-    public getBookingList(date_From:Date, date_to:Date): Observable<BookingModel[]> {
-        return this.http.post<BookingModel[]>(`${this.apiServerUrl}/booking`, {date_from:date_From, date_to:date_to, text:""});
+    public getBookingList(date_From: Date, date_to: Date): Observable<BookingModel[]> {
+        return this.http.post<BookingModel[]>(`${this.apiServerUrl}/booking`, {date_from: date_From, date_to: date_to, text: ''});
     };
 
     public getAvailable(filter: BookingFilterModel): Observable<AvailableModel[]> {
@@ -32,19 +32,24 @@ export class BookingService{
 
     }
 
-    deleteBooking(id: number):Observable<any> {
+    deleteBooking(id: number): Observable<any> {
         return this.http.delete<any>(`${this.apiServerUrl}/booking/delete/${id}`);
     }
 
-    saveGuestList(roomSelected: RoomingListModel): Observable<any>  {
+    saveGuestList(roomSelected: RoomingListModel): Observable<any> {
         return this.http.put<any>(`${this.apiServerUrl}/booking/guest/save`, roomSelected);
     }
 
-    createRoom(roomAddorUpdate: Room, id: number): Observable<any>  {
+    createRoom(roomAddorUpdate: Room, id: number): Observable<any> {
         return this.http.post<any>(`${this.apiServerUrl}/booking/${id}/room/create`, roomAddorUpdate);
     }
 
-    deleteRoom(room: RoomingListModel): Observable<any>  {
+    deleteRoom(room: RoomingListModel): Observable<any> {
         return this.http.delete<any>(`${this.apiServerUrl}/booking/room/delete/${room.id}`);
+    }
+
+    search(info: string): Observable<any> {
+        return this.http.get<any>(`${this.apiServerUrl}/booking/search-guest/${info}`);
+
     }
 }

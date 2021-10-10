@@ -36,6 +36,7 @@ public class RoomController {
             return new ResponseEntity(HttpStatus.OK);
         else return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
+
     @PutMapping("/update")
     public ResponseEntity update(@RequestBody() RoomDTO room) {
         if (roomService.update(room))

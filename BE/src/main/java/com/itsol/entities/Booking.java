@@ -1,6 +1,5 @@
 package com.itsol.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.itsol.enums.ACTIVE_STATUS;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -34,15 +33,16 @@ public class Booking {
     private String notice;
     @Column(name = "STATUS")
     private int status;
-    public ACTIVE_STATUS getStatus() {
-        return ACTIVE_STATUS.valueOf(status);
-    }
-    public void setStatus(ACTIVE_STATUS status) {
-        this.status = status.value;
-    }
-
     @OneToMany(mappedBy = "booking")
     private Collection<RoomBooked> roomBookedList;
     private String booker;
+
+    public ACTIVE_STATUS getStatus() {
+        return ACTIVE_STATUS.valueOf(status);
+    }
+
+    public void setStatus(ACTIVE_STATUS status) {
+        this.status = status.value;
+    }
 
 }

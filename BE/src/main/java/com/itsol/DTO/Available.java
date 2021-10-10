@@ -1,12 +1,11 @@
 package com.itsol.DTO;
 
-import com.itsol.entities.Room;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.xml.ws.soap.Addressing;
 import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

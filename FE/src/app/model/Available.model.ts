@@ -3,9 +3,9 @@ export interface Room {
     number: number
 }
 
-export interface AvailableModel{
-    rtID:number;
-    roomType:String;
-    rate:number;
+export interface AvailableModel {
+    rtID: number;
+    roomType: String;
+    rate: number;
     roomList: Room[]
 }

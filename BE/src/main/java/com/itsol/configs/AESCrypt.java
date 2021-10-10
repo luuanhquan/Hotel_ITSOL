@@ -13,6 +13,7 @@ import java.util.Base64;
 public class AESCrypt {
     @Value("${jwt.secret}")
     private String secretKey;
+
     public String encrypt(String strToEncrypt) {
         try {
             MessageDigest sha = MessageDigest.getInstance("SHA-1");
@@ -28,6 +29,7 @@ public class AESCrypt {
         }
         return null;
     }
+
     public String decrypt(String strToDecrypt) {
         try {
             MessageDigest sha = MessageDigest.getInstance("SHA-1");

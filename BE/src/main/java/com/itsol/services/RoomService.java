@@ -3,7 +3,6 @@ package com.itsol.services;
 import com.itsol.DTO.RoomDTO;
 import com.itsol.repositories.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

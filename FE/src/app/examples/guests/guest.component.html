@@ -1,5 +1,5 @@
 <div class="wrapper">
-    <div style="height: 80px; background: orangered" filter-color="orange"></div>
+    <div filter-color="orange" style="height: 80px; background: orangered"></div>
     <div class="section">
         <div class="row">
             <p></p>
@@ -15,6 +15,7 @@
                     <table class="table">
                         <thead>
                         <tr>
+                            <th scope="col">ID</th>
                             <th scope="col">Gender</th>
                             <th scope="col">Name</th>
                             <th scope="col">Address</th>
@@ -25,15 +26,21 @@
                         </thead>
                         <tbody>
                         <tr *ngFor="let guest of guestList">
-                            <td>{{guest.gender=="Male"?"Mr":"Mrs"}}</td>
+                            <td>{{guest.id}}</td>
+                            <td>{{guest.gender ? "Mr" : "Mrs"}}</td>
                             <td>{{guest.name}}</td>
                             <td>{{guest.address}}</td>
                             <td>{{guest.phone}}</td>
                             <td>{{guest.personal_id}}</td>
                             <td>
-                                <button type="button" (click)="setGuest(guest);openModal(editGuest,'lg')"
-                                        class="btn btn-primary btn-icon btn-round" title="Edit rooms">
+                                <button (click)="setGuest(guest);openModal(editGuest,'lg')" class="btn btn-primary btn-icon btn-round"
+                                        title="Edit guest" type="button">
                                     <i class="now-ui-icons ui-1_settings-gear-63">
+                                    </i>
+                                </button>
+                                <button (click)="findHistory(guest.id);openModal(history,'lg')" class="btn btn-primary btn-icon btn-round"
+                                        title="View History" type="button">
+                                    <i class="now-ui-icons travel_info">
                                     </i>
                                 </button>
                             </td>
@@ -41,9 +48,12 @@
                         </tbody>
                     </table>
                     <div style="text-align: center">
-                        <a class="btn btn-primary">
+                        <a (click)="createGuest();openModal(editGuest,'lg')" class="btn btn-primary">
                             New guest</a>
                     </div>
+                    <ngb-pagination (pageChange)="getGuestList()" [(page)]="page" [collectionSize]="totalPage*10"
+                                    aria-label="Default pagination"
+                                    class="pagination-primary"></ngb-pagination>
 
                 </div>
             </div>
@@ -51,5 +61,123 @@
         </div>
         <!--    /////////////////////////////MODAL//////////////////////////////////-->
 
+
+        <ng-template #editGuest let-c="close" let-d="dismiss">
+
+            <div class="modal-header justify-content-center">
+                <button (click)="d('Cross click')" class="close" type="button">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                </button>
+                <h4 class="title title-up justify-content-center">{{title}}</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="card">
+                    <div class="nav-tabs-navigation" data-tabs-color="orange">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col" style="width: 20%;">Name</th>
+                                <th scope="col" style="width: 15%;">Gender</th>
+                                <th scope="col" style="width: 25%;">Address</th>
+                                <th scope="col" style="width: 15%;">Phone</th>
+                                <th scope="col" style="width: 15%;">Personal_id</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <input [(ngModel)]="selectedGuest.name" class="form-control" name="name" placeholder="Name"
+                                           type="text">
+                                </td>
+                                <td>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input (change)="changeGender()" [checked]="selectedGuest.gender"
+                                                   class="form-check-input" type="checkbox">
+                                            <span class="form-check-sign"></span> {{selectedGuest.gender ? "Mr" : "Mrs"}}
+                                        </label></div>
+                                </td>
+                                <td>
+                                    <input [(ngModel)]="selectedGuest.address" class="form-control" name="address" placeholder="Address"
+                                           type="text">
+                                </td>
+                                <td>
+                                    <input [(ngModel)]="selectedGuest.phone" class="form-control" name="Phone" placeholder="Phone"
+                                           type="text">
+                                </td>
+                                <td>
+                                    <input [(ngModel)]="selectedGuest.personal_id" class="form-control" name="Phone" placeholder="Phone"
+                                           type="text">
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal-footer justify-content-center">
+                <button (click)="saveGuest()" class="btn btn-primary" type="button">
+                    Save
+                </button>
+            </div>
+        </ng-template>
+        <!--    HISTORY---->
+        <ng-template #history let-c="close" let-d="dismiss">
+
+            <div class="modal-header justify-content-center">
+                <button (click)="d('Cross click')" class="close" type="button">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                </button>
+                <h4 class="title title-up justify-content-center">History</h4>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="nav-tabs-navigation" data-tabs-color="orange">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">Booking ID</th>
+                                <th scope="col">Date From</th>
+                                <th scope="col">Date To</th>
+                                <th scope="col">Date To</th>
+                                <th scope="col">Room Number</th>
+                                <th scope="col">Room Type</th>
+                                <th scope="col">Rate</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let item of guest_history; let index = index"
+                                [attr.data-index]="index">
+                                <td>
+                                    {{item.booking_id}}
+                                </td>
+                                <td>
+                                    {{item.date_from|date:'shortDate'}}
+                                </td>
+                                <td>
+                                    {{item.date_to|date:'shortDate'}}
+                                </td>
+                                <td>
+                                    {{item.room_number}}
+                                </td>
+                                <td>
+                                    {{item.room_type}}
+                                </td>
+                                <td>
+                                    {{item.rate}}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+            </div>
+        </ng-template>
     </div>
 </div>

@@ -1,6 +1,7 @@
 package com.itsol.repositories;
 
 import org.hibernate.transform.ResultTransformer;
+
 import java.util.List;
 
 @FunctionalInterface

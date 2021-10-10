@@ -1,6 +1,9 @@
 package com.itsol.controllers;
 
-import com.itsol.DTO.*;
+import com.itsol.DTO.BookingCreateDTO;
+import com.itsol.DTO.BookingFilterDTO;
+import com.itsol.DTO.RoomDetail;
+import com.itsol.DTO.RoomingListDTO;
 import com.itsol.services.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,13 +17,13 @@ public class BookingController {
     BookingService bookingService;
 
     @PostMapping()
-    public ResponseEntity getBookingList(@RequestBody()BookingFilterDTO bookingFilter){
+    public ResponseEntity getBookingList(@RequestBody() BookingFilterDTO bookingFilter) {
         return new ResponseEntity(bookingService.getBookingList(bookingFilter), HttpStatus.OK);
     }
 
 
     @PostMapping("/create")
-    public ResponseEntity createBooking(@RequestBody()BookingCreateDTO bookingCreate){
+    public ResponseEntity createBooking(@RequestBody() BookingCreateDTO bookingCreate) {
         System.out.println(bookingCreate);
         bookingService.createBooking(bookingCreate);
         return ResponseEntity.ok("");
@@ -29,29 +32,33 @@ public class BookingController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity deleteBooking(@PathVariable("id")int bookingId){
-        if(bookingService.deleteBooking(bookingId))
-        return ResponseEntity.ok("Success!");
+    public ResponseEntity deleteBooking(@PathVariable("id") int bookingId) {
+        if (bookingService.deleteBooking(bookingId))
+            return ResponseEntity.ok("Success!");
         else
             return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/guest/save")
-    public ResponseEntity saveGuests(@RequestBody()RoomingListDTO roomingListDTO){
+    public ResponseEntity saveGuests(@RequestBody() RoomingListDTO roomingListDTO) {
         bookingService.saveGuests(roomingListDTO);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @PostMapping("/{id}/room/create")
-    public ResponseEntity createRoom(@RequestBody()RoomDetail room, @PathVariable("id")int bookingID){
-        System.out.println("OK?");
+    public ResponseEntity createRoom(@RequestBody() RoomDetail room, @PathVariable("id") int bookingID) {
         bookingService.createRoom(bookingID, room);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @DeleteMapping("/room/delete/{id}")
-    public ResponseEntity deleteRoom(@PathVariable("id")int bookedRoomID){
+    public ResponseEntity deleteRoom(@PathVariable("id") int bookedRoomID) {
         bookingService.deleteRoom(bookedRoomID);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping("/search-guest/{info}")
+    public ResponseEntity searchGuest(@PathVariable String info) {
+        return new ResponseEntity(bookingService.searchGuest(info), HttpStatus.OK);
     }
 }

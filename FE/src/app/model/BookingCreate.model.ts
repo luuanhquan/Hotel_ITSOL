@@ -1,5 +1,4 @@
-
-export interface BookingCreateModel{
+export interface BookingCreateModel {
     booker: String;
     notice: String;
     date_from: Date;

@@ -60,13 +60,13 @@ public class RoomTypeRepository extends BaseRepository {
     }
 
     public void saveOrUpdate(List<RoomTypeDTO> roomTypeList) {
-        List<Number> rtOld= this.getEntityManager().createNativeQuery("SELECT ID FROM ROOM_TYPE")
-                        .getResultList();
-        List<Integer> rtNew= roomTypeList.stream().map(rt-> rt.getId()).collect(Collectors.toList());
+        List<Number> rtOld = this.getEntityManager().createNativeQuery("SELECT ID FROM ROOM_TYPE")
+                .getResultList();
+        List<Integer> rtNew = roomTypeList.stream().map(rt -> rt.getId()).collect(Collectors.toList());
         System.out.println(rtNew);
-        rtOld.stream().filter(rt -> rtNew.indexOf(rt.intValue())==-1).forEach(rt->{
+        rtOld.stream().filter(rt -> rtNew.indexOf(rt.intValue()) == -1).forEach(rt -> {
             System.out.println(rt);
-                this.deleteRoomType(rt.intValue());
+            this.deleteRoomType(rt.intValue());
         });
         roomTypeList.stream().forEach(roomType -> {
             System.out.println(roomType);

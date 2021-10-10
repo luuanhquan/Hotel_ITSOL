@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, Renderer2, ElementRef, OnDestroy } from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit} from '@angular/core';
 
 @Component({
     selector: 'app-nucleoicons',
@@ -7,15 +7,16 @@ import { Component, OnInit, Inject, Renderer2, ElementRef, OnDestroy } from '@an
 })
 export class NucleoiconsComponent implements OnInit, OnDestroy {
 
-    constructor( private element : ElementRef) {}
+    constructor(private element: ElementRef) {
+    }
 
     ngOnInit() {
         let navbar = document.getElementsByTagName('app-navbar')[0].children[0];
 
-      navbar.classList.remove('navbar-transparent');
+        navbar.classList.remove('navbar-transparent');
     }
 
-    ngOnDestroy(){
+    ngOnDestroy() {
         let navbar = document.getElementsByTagName('app-navbar')[0].children[0];
 
     }

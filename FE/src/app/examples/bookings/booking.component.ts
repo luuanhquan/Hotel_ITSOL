@@ -9,8 +9,6 @@ import {BookingCreateModel} from '../../model/BookingCreate.model';
 import {Router} from '@angular/router';
 import {RoomingListModel} from '../../model/RoomingList.model';
 import {GuestModel} from '../../model/Guest.model';
-import {first} from 'rxjs/operators';
-import {RouterModule} from '@angular/router';
 
 
 @Component({
@@ -78,20 +76,24 @@ export class BookingComponent implements OnInit {
     date_from_create: NgbDate;
     date_to_create: NgbDate;
     available: AvailableModel[];
-    roomList: Room[]=[];
+    roomList: Room[] = [];
     bookingCreate: BookingCreateModel = new class implements BookingCreateModel {
-        booker = "";
+        booker = '';
         date_from: Date;
         date_to: Date;
-        notice = "";
+        notice = '';
         roomList = [];
     };
-
+    selected_guest_index;
     roomEditSelected: RoomingListModel;
     bookingSelected: BookingModel;
     roomAddorUpdate: Room;
-    public fields: Object = {id: 'text', number: 'icon'};
     page: 40;
+    search_info: string;
+    search_result: GuestModel[]
+    submitted = false;
+    error_message = '';
+
 
     constructor(
         private bookingService: BookingService,
@@ -106,11 +108,14 @@ export class BookingComponent implements OnInit {
         body.classList.add('profile-page');
         var navbar = document.getElementsByTagName('nav')[0];
         navbar.classList.add('navbar-transparent');
+
+
         let today = new Date;
-        this.date_from = new NgbDate(2021, 10, 2)
-        // this.date_from= new NgbDate(today.getFullYear(),today.getMonth(), today.getDate())
+        // this.date_from = new NgbDate(2021, 10, 2)
+        this.date_from = new NgbDate(today.getFullYear(), today.getMonth() + 1, today.getDate())
         this.date_to = this.date_from;
         this.search()
+
     }
 
     ngOnDestroy() {
@@ -137,24 +142,12 @@ export class BookingComponent implements OnInit {
     }
 
     openModal(content: TemplateRef<any>, size: string) {
-            this.modalService.open(content, {size: size}).result.then((result) => {
-                this.closeResult = `Closed with: ${result}`;
-            }, (reason) => {
-                this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-            });
+        this.modalService.open(content, {size: size}).result.then((result) => {
+            this.closeResult = `Closed with: ${result}`;
+        }, (reason) => {
+            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        });
     }
-
-    private getDismissReason(reason: any): string {
-        if (reason === ModalDismissReasons.ESC) {
-            return 'by pressing ESC';
-        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-            return 'by clicking on a backdrop';
-        } else {
-            return `with: ${reason}`;
-        }
-
-    }
-
 
     getAvailable(date_from_create: NgbDate, date_to_create: NgbDate) {
         this.bookingCreate.roomList = []
@@ -198,31 +191,35 @@ export class BookingComponent implements OnInit {
         }
     }
 
-
     setSelectedBooking(booking: BookingModel) {
         this.bookingSelected = JSON.parse(JSON.stringify(booking));
     }
 
-
     createBooking(date_from_create: NgbDate, date_to_create: NgbDate) {
-        // if(this.date_to.before(this.date_from)){
-        //    date_to_create=date_from_create
-        // }
         this.bookingCreate.date_from = this.convert(date_from_create)
         this.bookingCreate.date_to = this.convert(date_to_create)
-        console.log(this.bookingCreate)
-        this.bookingService.createBooking(this.bookingCreate).subscribe(()=>{
-            this.search()});
+        if (this.bookingCreate.booker.trim() == '') {
+            this.error_message = 'Booker cannot be empty'
+        }
+        if (this.bookingCreate.date_from >= this.bookingCreate.date_to) {
+            this.error_message = 'Arrival can not before departure date'
+            return
+        }
+        this.bookingService.createBooking(this.bookingCreate).subscribe(() => {
+            this.search()
+        });
         this.modalService.dismissAll()
     }
 
     deleteBooking(id: number) {
-        this.bookingService.deleteBooking(id).subscribe(()=>{this.search()})
+        this.bookingService.deleteBooking(id).subscribe(() => {
+            this.search()
+        })
 
     }
 
     changeGender(i: number) {
-        this.roomEditSelected.guestList[i].gender = this.roomEditSelected.guestList[i].gender == 'Male' ? 'Female' : 'Male';
+        this.roomEditSelected.guestList[i].gender = !this.roomEditSelected.guestList[i].gender;
 
     }
 
@@ -235,7 +232,7 @@ export class BookingComponent implements OnInit {
         let newGuest: GuestModel;
         newGuest = new class implements GuestModel {
             address = '';
-            gender = 'Male';
+            gender = true;
             id = null;
             name = '';
             personal_id = '';
@@ -245,12 +242,13 @@ export class BookingComponent implements OnInit {
     }
 
     deleteGuest(index: number) {
-        this.roomEditSelected.guestList.splice(index,1)
+        this.roomEditSelected.guestList.splice(index, 1)
     }
 
     saveGuestList() {
-        this.bookingService.saveGuestList(this.roomEditSelected).pipe(first()).subscribe(()=>
-        {this.search()})
+        this.bookingService.saveGuestList(this.roomEditSelected).subscribe(() => {
+            this.search()
+        })
         this.modalService.dismissAll()
     }
 
@@ -261,17 +259,48 @@ export class BookingComponent implements OnInit {
 
     createRoom() {
         console.log(this.roomAddorUpdate, this.bookingSelected.id)
-        this.bookingService.createRoom(this.roomAddorUpdate, this.bookingSelected.id).subscribe(()=>{this.search()})
+        this.bookingService.createRoom(this.roomAddorUpdate, this.bookingSelected.id).subscribe(() => {
+            this.search()
+        })
         this.modalService.dismissAll()
     }
-
 
     setAddOrUpdateRoom(room: Room) {
         this.roomAddorUpdate = room;
     }
 
     deleteRoom(room: RoomingListModel) {
-        this.bookingService.deleteRoom(room).subscribe(()=>{
-            this.search()});
+        this.bookingService.deleteRoom(room).subscribe(() => {
+            this.search()
+        });
+    }
+
+    setGuest(guest: number) {
+        this.selected_guest_index = guest;
+    }
+
+    searchGuest() {
+        this.bookingService.search(this.search_info).subscribe(data => {
+            this.search_result = data
+        })
+    }
+
+    assignGuest(guest: GuestModel) {
+        this.roomEditSelected.guestList[this.selected_guest_index] = JSON.parse(JSON.stringify(guest));
+    }
+
+    empty(input: String) {
+        return input.trim() == ''
+    }
+
+    private getDismissReason(reason: any): string {
+        if (reason === ModalDismissReasons.ESC) {
+            return 'by pressing ESC';
+        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+            return 'by clicking on a backdrop';
+        } else {
+            return `with: ${reason}`;
+        }
+
     }
 }

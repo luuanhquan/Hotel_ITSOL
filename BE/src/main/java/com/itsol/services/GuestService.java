@@ -4,7 +4,6 @@ import com.itsol.DTO.GuestDTO;
 import com.itsol.DTO.HistoryDTO;
 import com.itsol.repositories.GuestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,8 +21,11 @@ public class GuestService {
         return guestRepository.getHistory(guestID);
     }
 
-    public boolean saveOrUpdate(GuestDTO guestDTO){
-        return guestRepository.saveOrUpdate(guestDTO);
+    public boolean saveOrUpdate(GuestDTO guest) {
+        if (guest.getId() == null)
+            return guestRepository.createGuest(guest) != null;
+        else
+            return guestRepository.updateGuest(guest);
     }
 
     public int getTotalPage() {

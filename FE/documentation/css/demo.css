@@ -267,13 +267,13 @@
     z-index: 3;
 }
 
-.presentation-page .section-cards+.section-content {
+.presentation-page .section-cards + .section-content {
     padding-top: 480px;
     padding-bottom: 30px;
     margin-top: -277px;
 }
 
-.presentation-page .page-header+.section-components {
+.presentation-page .page-header + .section-components {
     padding-top: 300px;
 }
 
@@ -281,7 +281,7 @@
     padding: 100px 0;
 }
 
-.presentation-page>.description {
+.presentation-page > .description {
     padding-top: 20px;
 }
 
@@ -431,7 +431,7 @@
     border-radius: 10px;
 }
 
-.presentation-page .section-components+.section {
+.presentation-page .section-components + .section {
     margin-top: -270px;
     z-index: 7;
     position: relative;
@@ -446,7 +446,7 @@
     overflow: hidden;
 }
 
-.presentation-page .section-free-demo .github-buttons>.btn {
+.presentation-page .section-free-demo .github-buttons > .btn {
     float: left;
     margin-right: 15px;
 }
@@ -931,6 +931,7 @@
         height: 640px;
         overflow: hidden;
     }
+
     .parallax .parallax-image img {
         height: 100%;
         width: auto;
@@ -973,28 +974,34 @@
     .index-page .typography-line span {
         margin-left: 0;
     }
-    .presentation-page .section-cards+.section-content {
+
+    .presentation-page .section-cards + .section-content {
         padding-top: 70px;
         margin-top: 0;
     }
+
     .presentation-page .rellax-text-container .pro {
         bottom: 84px;
         top: initial;
         font-size: 13px;
         right: 55px;
     }
+
     .presentation-page .section-components .col-md-3 {
         max-width: inherit;
     }
+
     .presentation-page .card-container {
         margin: 0 auto;
     }
+
     .presentation-page .card-container .card-component .front {
         -webkit-transform: rotateY(0deg);
         -moz-transform: rotateY(0deg);
         -o-transform: rotateY(0deg);
         transform: rotateY(0deg);
     }
+
     .presentation-page .rellax-text-container .h1-seo,
     .presentation-page .index-page .h1-seo {
         background: -moz-linear-gradient(top, #FFFFFF 64%, #c38775 100%);
@@ -1003,14 +1010,17 @@
         -webkit-background-clip: text;
         font-size: 8.4em;
     }
+
     .presentation-page .rellax-text-container,
     .index-page .rellax-text-container {
         top: 21%;
         max-width: 360px;
     }
+
     .index-page .rellax-text-container {
         top: 25%;
     }
+
     .index-page .rellax-text-container .h1-seo {
         font-size: 3.8em;
     }
@@ -1020,7 +1030,8 @@
     .presentation-page .rellax-text-container {
         top: 20% !important;
     }
-    .presentation-page .page-header+.section-components {
+
+    .presentation-page .page-header + .section-components {
         padding-top: 200px;
     }
 }
@@ -1037,15 +1048,19 @@
         max-width: 565px;
         top: 33%;
     }
+
     .index-page .rellax-text-container {
         top: 26%;
     }
+
     .presentation-page .rellax-text-container .h1-seo {
         font-size: 9.3em;
     }
+
     .index-page .rellax-text-container .h1-seo {
         font-size: 5.6em;
     }
+
     .presentation-page .rellax-text-container .pro {
         font-size: 12px;
         top: -14px;
@@ -1059,17 +1074,21 @@
         max-width: 730px;
         top: 32%;
     }
+
     .index-page .rellax-text-container {
         top: 24%;
     }
+
     .presentation-page .rellax-text-container .pro {
         font-size: 14px;
         top: 18px;
         right: -3px;
     }
+
     .presentation-page .rellax-text-container .h1-seo {
         font-size: 10.8em;
     }
+
     .index-page .rellax-text-container .h1-seo {
         font-size: 6.9em;
     }
@@ -1079,19 +1098,23 @@
     .presentation-page .card-container:hover .front {
         top: -80px;
     }
+
     .presentation-page .section-content .image-container {
         height: 400px;
     }
+
     .presentation-page .section-content .image-container img {
         position: absolute;
         width: 100%;
         max-width: 380px;
     }
+
     .presentation-page .section-content .image-container .img-blog {
         z-index: 4;
         left: 100px;
         top: 20px;
     }
+
     .presentation-page .section-content .image-container .img-comments {
         z-index: 3;
         left: -100px;
@@ -1104,16 +1127,19 @@
         position: relative;
         margin-bottom: 100px;
     }
+
     .presentation-page .section-cards .image-container1,
     .presentation-page .section-cards .image-container5 {
         width: 15%;
         top: -75px;
     }
+
     .presentation-page .section-cards .image-container2,
     .presentation-page .section-cards .image-container4 {
         width: 21%;
         top: -62px;
     }
+
     .presentation-page .section-cards .image-container3 {
         width: 22%;
         top: -45px;
@@ -1124,6 +1150,7 @@
     .presentation-page .section-icons .icons-nucleo {
         position: initial;
     }
+
     .presentation-page .third-right-icon,
     .presentation-page .fourth-right-icon,
     .presentation-page .fifth-right-icon,
@@ -1142,20 +1169,25 @@
     .presentation-page .tenth-left-icon {
         display: none;
     }
+
     .presentation-page .section-icons .icons-nucleo .first-right-icon,
     .presentation-page .section-icons .icons-nucleo .first-left-icon {
         top: -15%;
     }
+
     .presentation-page .section-icons .icons-nucleo .second-right-icon {
         top: 35%;
         right: 80%;
     }
+
     .presentation-page .section-content .image-container {
         height: 550px;
     }
+
     .index-page .category-absolute {
         top: 90vh;
     }
+
     .footer ul {
         text-align: left;
     }
@@ -1168,17 +1200,21 @@
         margin-top: -15vh;
         margin-left: 80px;
     }
+
     .section-images .hero-images-container {
         max-width: 300px;
     }
+
     .section-images .hero-images-container-1 {
         right: 28%;
         top: 40%;
     }
+
     .section-images .hero-images-container-2 {
         right: 21%;
         top: 55%;
     }
+
     .index-page .category-absolute {
         top: 90vh;
     }
@@ -1189,6 +1225,7 @@
     .btn-morphing {
         margin-bottom: 10px;
     }
+
     .parallax .motto {
         top: 170px;
         margin-top: 0;
@@ -1201,9 +1238,11 @@
     .presentation-page .section-icons .icons-nucleo {
         top: -135px;
     }
+
     .presentation-page .section-icons .icons-nucleo.icons-nucleo-right {
         top: 0;
     }
+
     .presentation-page .first-right-icon,
     .presentation-page .second-right-icon,
     .presentation-page .third-right-icon,
@@ -1221,29 +1260,37 @@
     .presentation-page .eighth-left-icon {
         display: none;
     }
+
     .presentation-page .section-icons .icons-nucleo .first-left-icon {
         left: 2%;
     }
+
     .presentation-page .section-icons .icons-nucleo .fourth-left-icon {
         left: 46%;
     }
+
     .presentation-page .section-icons .icons-nucleo .seventh-left-icon {
         left: 80%;
         font-size: 55px;
     }
+
     .presentation-page .section-icons .icons-nucleo .ninth-left-icon {
         left: 28%;
     }
+
     .presentation-page .section-icons .icons-nucleo .tenth-left-icon {
         left: 65%;
     }
+
     .presentation-page .testimonials-people img {
         position: relative;
         display: none;
     }
+
     .presentation-page .section-content .image-container {
         margin-bottom: 45px;
     }
+
     .presentation-page .section-content img {
         margin-bottom: 15px;
     }
@@ -1254,6 +1301,7 @@
         margin-left: -30px;
         margin-right: -30px;
     }
+
     .presentation-page .section-sections .rellax {
         left: 60px;
         position: absolute !important;
@@ -1366,7 +1414,7 @@
     text-decoration: none;
 }
 
-.section-examples a+a {
+.section-examples a + a {
     margin-top: 30px;
 }
 
@@ -1374,8 +1422,8 @@
     margin-top: 30px;
 }
 
-.components-page .wrapper>.header,
-.tutorial-page .wrapper>.header {
+.components-page .wrapper > .header,
+.tutorial-page .wrapper > .header {
     height: 500px;
     padding-top: 128px;
     background-size: cover;
@@ -1426,16 +1474,19 @@
     .header-3 .navbar-collapse {
         display: none !important;
     }
+
     .presentation-page .section-basic-components .image-container {
         height: 425px;
         margin-top: 100px;
     }
+
     .presentation-page .section-basic-components .image-container .components-macbook {
         width: 100%;
         height: 100%;
         position: relative;
         left: 0;
     }
+
     .presentation-page .section-free-demo .github-background-container {
         position: initial;
         left: 0;
@@ -1444,12 +1495,15 @@
         margin: 0 auto;
         text-align: center;
     }
+
     .presentation-page .section-free-demo .github-background-container i {
         font-size: 400px;
     }
+
     .presentation-page .section-components .col-md-3 {
         padding-left: 15px;
     }
+
     .presentation-page .h3-description,
     .presentation-page .index-page .h3-description {
         top: 53%;
@@ -1461,25 +1515,31 @@
         height: 326px;
         margin-top: 30px;
     }
+
     .presentation-page .section-basic-components .image-container .social-img {
         height: 48px;
     }
+
     .presentation-page .rellax-text-container,
     .index-page .rellax-text-container {
         max-width: 900px;
         top: 27%;
     }
+
     .index-page .rellax-text-container {
         top: 23%;
     }
+
     .presentation-page .rellax-text-container .pro {
         font-size: 18px;
         top: 29px;
         right: -29px;
     }
+
     .presentation-page .rellax-text-container .h1-seo {
         font-size: 14em;
     }
+
     .index-page .rellax-text-container .h1-seo {
         font-size: 9em;
     }

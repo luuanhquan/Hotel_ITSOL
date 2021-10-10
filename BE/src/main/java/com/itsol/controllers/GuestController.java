@@ -14,23 +14,24 @@ public class GuestController {
     GuestService guestService;
 
     @GetMapping("/{page}")
-    public ResponseEntity getAll(@PathVariable("page")int page){
+    public ResponseEntity getAll(@PathVariable("page") int page) {
         return new ResponseEntity(guestService.getAll(page), HttpStatus.OK);
     }
+
     @GetMapping("/total-page")
-    public ResponseEntity getTotalPage(){
+    public ResponseEntity getTotalPage() {
         return new ResponseEntity(guestService.getTotalPage(), HttpStatus.OK);
     }
 
     @GetMapping("/history/{id}")
-    public ResponseEntity getHistory(@PathVariable("id")int guestID){
-        return new ResponseEntity(guestService.getHistory(guestID),HttpStatus.OK);
+    public ResponseEntity getHistory(@PathVariable("id") int guestID) {
+        return new ResponseEntity(guestService.getHistory(guestID), HttpStatus.OK);
     }
 
-    @PostMapping("/create")
-    public ResponseEntity createOrUpdate(@RequestBody GuestDTO guestDTO){
-        if(guestService.saveOrUpdate(guestDTO)){
+    @PostMapping("/save")
+    public ResponseEntity createOrUpdate(@RequestBody GuestDTO guestDTO) {
+        if (guestService.saveOrUpdate(guestDTO)) {
             return new ResponseEntity(HttpStatus.OK);
-        }else return new ResponseEntity(HttpStatus.NO_CONTENT);
+        } else return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }

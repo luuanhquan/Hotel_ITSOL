@@ -27,19 +27,19 @@ public class Room {
     private int roomNumber;
     @Column(name = "STATUS")
     private int status;
-    public ACTIVE_STATUS getStatus() {
-        return ACTIVE_STATUS.valueOf(status);
-    }
-    public void setStatus(ACTIVE_STATUS status) {
-        this.status = status.value;
-    }
-
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "Type_id", referencedColumnName = "id", nullable = false)
     private RoomType roomType;
-
     @OneToMany(mappedBy = "room")
     private Collection<RoomBooked> roomBookedList;
+
+    public ACTIVE_STATUS getStatus() {
+        return ACTIVE_STATUS.valueOf(status);
+    }
+
+    public void setStatus(ACTIVE_STATUS status) {
+        this.status = status.value;
+    }
 
 }

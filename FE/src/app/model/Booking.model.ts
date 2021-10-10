@@ -1,6 +1,6 @@
 import {RoomingListModel} from './RoomingList.model';
 
-export interface BookingModel{
+export interface BookingModel {
     id: number;
     booker: String;
     room_count: number;

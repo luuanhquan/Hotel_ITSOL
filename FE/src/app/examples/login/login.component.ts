@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
 
-    data : Date = new Date();
+    data: Date = new Date();
     focus;
     focus1;
 
-    constructor() { }
+    constructor() {
+    }
 
     ngOnInit() {
         var body = document.getElementsByTagName('body')[0];
@@ -20,7 +21,8 @@ export class LoginComponent implements OnInit {
         var navbar = document.getElementsByTagName('nav')[0];
         navbar.classList.add('navbar-transparent');
     }
-    ngOnDestroy(){
+
+    ngOnDestroy() {
         var body = document.getElementsByTagName('body')[0];
         body.classList.remove('login-page');
 
