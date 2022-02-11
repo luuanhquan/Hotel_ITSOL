@@ -196,11 +196,16 @@ export class BookingComponent implements OnInit {
     }
 
     createBooking(date_from_create: NgbDate, date_to_create: NgbDate) {
-        this.bookingCreate.date_from = this.convert(date_from_create)
-        this.bookingCreate.date_to = this.convert(date_to_create)
         if (this.bookingCreate.booker.trim() == '') {
             this.error_message = 'Booker cannot be empty'
+            return;
         }
+        if(this.date_from_create==null|| this.date_to_create == null){
+            this.error_message = "Date from or Date to empty"
+            return;
+        }
+        this.bookingCreate.date_from = this.convert(date_from_create)
+        this.bookingCreate.date_to = this.convert(date_to_create)
         if (this.bookingCreate.date_from >= this.bookingCreate.date_to) {
             this.error_message = 'Arrival can not before departure date'
             return
@@ -212,6 +217,8 @@ export class BookingComponent implements OnInit {
     }
 
     deleteBooking(id: number) {
+        if(!confirm("Are you sure?"))
+            return
         this.bookingService.deleteBooking(id).subscribe(() => {
             this.search()
         })
@@ -242,6 +249,8 @@ export class BookingComponent implements OnInit {
     }
 
     deleteGuest(index: number) {
+        if(!confirm("Are you sure?"))
+            return
         this.roomEditSelected.guestList.splice(index, 1)
     }
 
@@ -270,6 +279,8 @@ export class BookingComponent implements OnInit {
     }
 
     deleteRoom(room: RoomingListModel) {
+        if(!confirm("Are you sure?"))
+            return
         this.bookingService.deleteRoom(room).subscribe(() => {
             this.search()
         });

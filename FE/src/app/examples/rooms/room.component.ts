@@ -131,6 +131,8 @@ export class RoomComponent implements OnInit {
     }
 
     deleteRoom(room: RoomModel) {
+        if(!confirm("Are you sure?"))
+            return
         this.roomService.deleteRoom(room).subscribe(() => {
             this.getRoomList()
         })
@@ -141,6 +143,8 @@ export class RoomComponent implements OnInit {
     }
 
     deleteType(type: RoomTypeModel) {
+        if(!confirm("Are you sure?"))
+            return
         this.rtTemp.splice(this.rtTemp.indexOf(type), 1);
     }
 

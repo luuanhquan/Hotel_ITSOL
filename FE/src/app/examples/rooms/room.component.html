@@ -78,11 +78,11 @@
                             [attr.data-index]="index">
                             <td>
                                 <input [(ngModel)]="type.name" class="form-control" name="name" placeholder="Name"
-                                       type="text">
+                                       type="text" required>
                             </td>
                             <td>
                                 <input [(ngModel)]="type.rate" class="form-control" name="Rate" placeholder="Phone"
-                                       type="text">
+                                       type="number" required>
                             </td>
                             <td>
                                 <button (click)="deleteType(type)" class="btn btn-primary btn-icon btn-round"
